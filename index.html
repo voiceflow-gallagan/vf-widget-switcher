@@ -1,0 +1,79 @@
+<!-- THIS IS AN EXAMPLE PAGE AND SHOULD NOT BE USED OUTSIDE OF DEVELOPMENT -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Widget Switcher | Extensions Demo</title>
+    <style>
+      body {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+   <!-- Zendesk Chat Widget -->
+   <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=e4114602-2344-477f-af1c-4e9e1c479edc"> </script>
+   <script>
+       // Wait for Zendesk to load, then hide it
+       window.zESettings = {
+           webWidget: {
+               chat: {
+                   suppress: true
+               },
+               launcher: {
+                   chatLabel: {
+                       '*': 'Chat is currently unavailable'
+                   }
+               }
+           }
+       };
+
+       // Ensure the widget is hidden after it's fully loaded
+       window.zEmbed || function(e, t) {
+           var n, o, d, i, s, a = [], r = document.createElement("iframe");
+           window.zEmbed = function() {
+               a.push(arguments)
+           }, window.zE = window.zE || window.zEmbed, r.src = "javascript:false", r.title = "", r.role = "presentation", (r.frameElement || r).style.cssText = "display: none", d = document.getElementsByTagName("script"), d = d[d.length - 1], d.parentNode.insertBefore(r, d), i = r.contentWindow, s = i.document;
+           try {
+               o = s
+           } catch (c) {
+               n = document.domain, r.src = 'javascript:var d=document.open();d.domain="' + n + '";void(0);', o = s
+           }
+           o.open()._l = function() {
+               var e = this.createElement("script");
+               n && (this.domain = n), e.id = "js-iframe-async", e.src = "https://assets.zendesk.com/embeddable_framework/main.js", this.t = +new Date, this.zendeskHost = "yoursubdomain.zendesk.com", this.zEQueue = a, this.body.appendChild(e)
+           }, o.write('<body onload="document._l();">'), o.close()
+       }();
+
+       // Hide the widget after it's loaded
+       zE('messenger', 'hide');
+   </script>
+   <script type="module">
+      import { SwitchWidgetExtension } from '/extension.js';
+
+      (function (d, t) {
+        var v = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        v.onload = function () {
+          window.voiceflow.chat.load({
+            verify: { projectID: '6693c8a564612f164914658d' },
+            url: 'https://general-runtime.voiceflow.com',
+            versionID: 'development',
+            user: {
+              name: 'Demo User',
+            },
+            autostart: false,
+            allowDangerousHTML: true,
+            assistant: {
+              extensions: [
+                SwitchWidgetExtension
+              ],
+            },
+          });
+        };
+        v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+        v.type = 'text/javascript';
+        s.parentNode.insertBefore(v, s);
+      })(document, 'script');
+    </script>
+  </body>
+</html>
